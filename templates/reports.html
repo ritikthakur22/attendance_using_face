@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block page_heading %}Reports{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-heading"><div><p class="eyebrow">Filters</p><h2>Attendance report</h2></div><span class="badge neutral">{{ rows|length }} records</span></div>
+  <form method="get" class="report-filters">
+    <label><span>Scope</span><select name="scope" id="scopeSelect"><option value="date" {{ 'selected' if scope == 'date' else '' }}>One date</option><option value="all" {{ 'selected' if scope == 'all' else '' }}>All records</option></select></label>
+    <label id="dateFilter"><span>Date</span><input type="date" name="date" value="{{ selected_date }}"></label>
+    <label><span>Session</span><select name="session"><option value="">All sessions</option>{% for item in sessions %}<option value="{{ item }}" {{ 'selected' if item == selected_session else '' }}>{{ item }}</option>{% endfor %}</select></label>
+    <label><span>Class</span><select name="class"><option value="">All classes</option>{% for item in classes %}<option value="{{ item }}" {{ 'selected' if item == selected_class else '' }}>{{ item }}</option>{% endfor %}</select></label>
+    <button class="button secondary" type="submit">Apply filters</button>
+  </form>
+  <div class="export-bar">
+    <span>Download the filtered result:</span>
+    <a class="button ghost" href="{{ url_for('export_report_download', scope=scope, date=selected_date, session=selected_session, class=selected_class, format='csv') }}">CSV</a>
+    <a class="button ghost" href="{{ url_for('export_report_download', scope=scope, date=selected_date, session=selected_session, class=selected_class, format='xlsx') }}">Excel</a>
+    <a class="button primary" href="{{ url_for('export_report_download', scope=scope, date=selected_date, session=selected_session, class=selected_class, format='both') }}">Both</a>
+  </div>
+</section>
+
+<section class="panel">
+  {% if rows %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Student</th><th>Class</th><th>Session</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+      <tbody>{% for row in rows %}<tr><td><strong>{{ row[1] }}</strong><small class="table-subtext">{{ row[0] }}</small></td><td>{{ row[2] or '—' }}</td><td>{{ row[3] }}</td><td>{{ row[4] }}</td><td>{{ row[5] }}</td><td><span class="badge success">{{ row[6] }}</span></td></tr>{% endfor %}</tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="empty-state"><strong>No matching records</strong><span>Change the filters or take attendance first.</span></div>
+  {% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+  const scopeSelect = document.getElementById('scopeSelect');
+  const dateFilter = document.getElementById('dateFilter');
+  function syncScope() { dateFilter.style.display = scopeSelect.value === 'all' ? 'none' : 'grid'; }
+  scopeSelect.addEventListener('change', syncScope); syncScope();
+</script>
+{% endblock %}

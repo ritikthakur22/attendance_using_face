@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Register student{% endblock %}
+{% block page_heading %}Register student{% endblock %}
+{% block content %}
+<div class="workflow-grid">
+  <section class="panel form-panel">
+    <div class="panel-heading"><div><p class="eyebrow">Step 1</p><h2>Student details</h2></div></div>
+    <form id="registrationForm" class="form-grid" autocomplete="off">
+      <label><span>Student ID</span><input id="studentId" name="student_id" required maxlength="50" placeholder="S001"></label>
+      <label><span>Full name</span><input id="studentName" name="name" required maxlength="120" placeholder="Alice Smith"></label>
+      <label class="full-width"><span>Class or section</span><input id="className" name="class_name" maxlength="100" list="classOptions" placeholder="CS101"><datalist id="classOptions">{% for class_name in classes %}<option value="{{ class_name }}">{% endfor %}</datalist></label>
+      <label class="checkbox-row full-width"><input id="addImages" type="checkbox"><span><strong>Add samples to an existing student</strong><small>The ID, name, and class must exactly match the saved record.</small></span></label>
+    </form>
+
+    <div class="panel-heading section-heading"><div><p class="eyebrow">Step 2</p><h2>Add face images</h2></div><span class="counter" id="imageCounter">0 / 20</span></div>
+    <div class="button-row">
+      <button class="button secondary" id="startCameraButton" type="button">Start camera</button>
+      <button class="button primary" id="captureButton" type="button" disabled>Capture image</button>
+      <label class="button secondary file-button">Select files<input id="imageFiles" type="file" accept="image/jpeg,image/png" multiple></label>
+    </div>
+    <p class="help-text">Use 5–10 clear images with one face only. Vary the angle slightly and avoid backlighting.</p>
+
+    <div class="preview-grid" id="previewGrid"></div>
+    <div class="button-row submit-row">
+      <button class="button primary large" id="saveStudentButton" type="button">Save student</button>
+      <button class="button ghost" id="clearImagesButton" type="button">Clear images</button>
+    </div>
+    <div class="inline-status" id="registrationStatus"></div>
+  </section>
+
+  <aside class="panel camera-panel">
+    <div class="panel-heading"><div><p class="eyebrow">Camera preview</p><h2>Position one face</h2></div></div>
+    <div class="camera-frame portrait">
+      <video id="cameraVideo" autoplay muted playsinline></video>
+      <div class="face-guide" aria-hidden="true"></div>
+      <div class="camera-placeholder" id="cameraPlaceholder"><span>◉</span><strong>Camera is off</strong><small>Start the camera and allow browser permission.</small></div>
+    </div>
+    <canvas id="captureCanvas" hidden></canvas>
+    <div class="tip-list">
+      <div><span>1</span><p><strong>Only one person</strong><small>Images with multiple faces are rejected.</small></p></div>
+      <div><span>2</span><p><strong>Look toward the camera</strong><small>Keep the whole face visible and in focus.</small></p></div>
+      <div><span>3</span><p><strong>Use varied samples</strong><small>Move slightly between captures.</small></p></div>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/register.js') }}"></script>{% endblock %}

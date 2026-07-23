@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_heading %}Dashboard{% endblock %}
+{% block content %}
+<section class="stats-grid">
+  <article class="stat-card"><span class="stat-label">Students</span><strong>{{ student_count }}</strong><small>registered records</small></article>
+  <article class="stat-card"><span class="stat-label">Face samples</span><strong>{{ secure_encoding_count }}</strong><small>secure encodings</small></article>
+  <article class="stat-card"><span class="stat-label">Present today</span><strong>{{ present_today }}</strong><small>attendance records</small></article>
+  <article class="stat-card"><span class="stat-label">Today's sessions</span><strong>{{ session_count }}</strong><small>distinct sessions</small></article>
+</section>
+
+<section class="two-column-grid">
+  <article class="panel action-panel">
+    <div class="panel-heading"><div><p class="eyebrow">Start here</p><h2>Common actions</h2></div></div>
+    <div class="action-grid">
+      <a class="action-card" href="{{ url_for('register_page') }}"><span class="action-icon">＋</span><strong>Register a student</strong><small>Capture webcam photos or select image files.</small></a>
+      <a class="action-card" href="{{ url_for('attendance_page') }}"><span class="action-icon">◉</span><strong>Take attendance</strong><small>Start a named class session in the browser.</small></a>
+      <a class="action-card" href="{{ url_for('reports_page') }}"><span class="action-icon">⇩</span><strong>Export a report</strong><small>Download CSV, Excel, or both.</small></a>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="panel-heading"><div><p class="eyebrow">Classes</p><h2>Registered groups</h2></div><a class="text-link" href="{{ url_for('students_page') }}">View students →</a></div>
+    {% if classes %}
+      <div class="chip-list">{% for class_name in classes %}<a class="chip" href="{{ url_for('students_page', class=class_name) }}">{{ class_name }}</a>{% endfor %}</div>
+    {% else %}
+      <div class="empty-state compact"><strong>No classes yet</strong><span>Classes appear after students are registered.</span></div>
+    {% endif %}
+  </article>
+</section>
+
+<section class="panel">
+  <div class="panel-heading"><div><p class="eyebrow">Latest activity</p><h2>Recent attendance</h2></div><a class="text-link" href="{{ url_for('reports_page') }}">Open reports →</a></div>
+  {% if recent %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Student</th><th>Class</th><th>Session</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+      <tbody>
+      {% for row in recent %}
+        <tr><td><strong>{{ row[1] }}</strong><small class="table-subtext">{{ row[0] }}</small></td><td>{{ row[2] or '—' }}</td><td>{{ row[3] }}</td><td>{{ row[4] }}</td><td>{{ row[5] }}</td><td><span class="badge success">{{ row[6] }}</span></td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="empty-state"><strong>No attendance recorded</strong><span>Start an attendance session to see activity here.</span></div>
+  {% endif %}
+</section>
+{% endblock %}

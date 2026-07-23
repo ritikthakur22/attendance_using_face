@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Take attendance{% endblock %}
+{% block page_heading %}Take attendance{% endblock %}
+{% block content %}
+<section class="panel session-controls">
+  <div class="form-grid attendance-settings">
+    <label><span>Session name</span><input id="sessionName" list="sessionOptions" required placeholder="CS101 Morning"><datalist id="sessionOptions">{% for item in sessions %}<option value="{{ item }}">{% endfor %}</datalist></label>
+    <label><span>Class filter</span><select id="attendanceClass"><option value="">All classes</option>{% for class_name in classes %}<option value="{{ class_name }}">{{ class_name }}</option>{% endfor %}</select></label>
+    <label><span>Match tolerance</span><input id="tolerance" type="number" min="0.1" max="0.9" step="0.01" value="0.50"></label>
+    <label><span>Confirm frames</span><input id="confirmFrames" type="number" min="1" max="20" step="1" value="3"></label>
+  </div>
+  <div class="button-row">
+    <button class="button primary" id="startAttendanceButton" type="button">Start attendance</button>
+    <button class="button danger" id="stopAttendanceButton" type="button" disabled>Stop</button>
+    <span class="live-indicator" id="liveIndicator"><span></span>Not scanning</span>
+  </div>
+</section>
+
+<div class="attendance-layout">
+  <section class="panel">
+    <div class="panel-heading"><div><p class="eyebrow">Live camera</p><h2>Recognition feed</h2></div><div class="metric-inline"><strong id="presentMetric">0</strong><span>present</span></div></div>
+    <div class="camera-frame attendance-camera">
+      <video id="attendanceVideo" autoplay muted playsinline></video>
+      <canvas id="attendanceOverlay"></canvas>
+      <div class="camera-placeholder" id="attendancePlaceholder"><span>◉</span><strong>Camera is off</strong><small>Enter a session name and start attendance.</small></div>
+    </div>
+    <canvas id="attendanceCapture" hidden></canvas>
+    <div class="inline-status" id="attendanceStatus"></div>
+  </section>
+
+  <aside class="panel attendance-list-panel">
+    <div class="panel-heading"><div><p class="eyebrow">Current session</p><h2>Marked present</h2></div><span class="badge neutral" id="registeredMetric">0 registered</span></div>
+    <div class="attendance-list" id="attendanceList"><div class="empty-state compact"><strong>No attendance yet</strong><span>Recognized students will appear here.</span></div></div>
+
+    <details class="manual-mark">
+      <summary>Mark a student manually</summary>
+      <div class="manual-grid">
+        <input id="manualStudentId" placeholder="Student ID">
+        <button class="button secondary" id="manualMarkButton" type="button">Mark present</button>
+      </div>
+      <small>Use this as a fallback after verifying the student.</small>
+    </details>
+  </aside>
+</div>
+<input id="scanId" type="hidden" value="{{ scan_id }}">
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/attendance.js') }}"></script>{% endblock %}

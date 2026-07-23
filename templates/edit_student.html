@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Edit Student{% endblock %}
+{% block page_heading %}Edit Student: {{ student[1] }}{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-heading">
+    <div>
+      <p class="eyebrow">Student directory</p>
+      <h2>Edit Details</h2>
+    </div>
+  </div>
+  <form method="post" action="{{ url_for('edit_student_page', student_id=student[0]) }}" class="form-vertical" style="padding: var(--space-4); max-width: 400px;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    
+    <div class="form-group" style="margin-bottom: var(--space-3);">
+      <label for="student_id" style="display: block; font-weight: 500; margin-bottom: 0.25rem;">Student ID <span class="required">*</span></label>
+      <input type="text" id="student_id" name="student_id" value="{{ student[0] }}" required class="input-field" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;">
+    </div>
+    
+    <div class="form-group" style="margin-bottom: var(--space-3);">
+      <label for="name" style="display: block; font-weight: 500; margin-bottom: 0.25rem;">Full Name <span class="required">*</span></label>
+      <input type="text" id="name" name="name" value="{{ student[1] }}" required class="input-field" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;">
+    </div>
+    
+    <div class="form-group" style="margin-bottom: var(--space-4);">
+      <label for="class_name" style="display: block; font-weight: 500; margin-bottom: 0.25rem;">Class / Group</label>
+      <input type="text" id="class_name" name="class_name" value="{{ student[2] }}" class="input-field" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;">
+    </div>
+    
+    <div class="toolbar" style="display: flex; gap: 0.5rem;">
+      <button type="submit" class="button primary">Save Changes</button>
+      <a href="{{ url_for('students_page') }}" class="button ghost">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
