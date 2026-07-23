@@ -7,9 +7,4 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
-attendance.db
-*.db-journal
-*.db-shm
-*.db-wal
-attendance_records/
-dataset/
+
