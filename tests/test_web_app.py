@@ -1,8 +1,14 @@
 from __future__ import annotations
 
+import os
+import sys
 import tempfile
 import unittest
 from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
 
 try:
     from app import app

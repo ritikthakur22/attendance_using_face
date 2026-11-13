@@ -3,10 +3,11 @@
 > Local, browser-based face-recognition attendance built with Flask, OpenCV,
 > dlib, SQLite, and vanilla JavaScript.
 
-![Tests](https://img.shields.io/badge/tests-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB?logo=python&logoColor=white)
+[![Tests](https://github.com/ritikthakur22/attendance_using_face/actions/workflows/tests.yml/badge.svg)](https://github.com/ritikthakur22/attendance_using_face/actions/workflows/tests.yml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13-3776AB?logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-3.1-000000?logo=flask&logoColor=white)
-![Status](https://img.shields.io/badge/status-local%20development-orange)
+![Status](https://img.shields.io/badge/status-active%20development-green)
 
 FaceTrack registers students from a browser camera or image files, recognizes
 faces in named attendance sessions, stores attendance in SQLite, and exports
@@ -31,7 +32,7 @@ local web interface.
 - [Command-line tools](#command-line-tools)
 - [Data and privacy](#data-and-privacy)
 - [Troubleshooting](#troubleshooting)
-- [Contributing and security](#contributing-and-security)
+- [License and contributing](#license-and-contributing)
 
 ## Features
 
@@ -172,12 +173,10 @@ Native tools may be required when dlib builds locally:
 ### 1. Clone and open
 
 ```bash
-git clone https://github.com/OWNER/REPOSITORY.git
-cd REPOSITORY
+git clone https://github.com/ritikthakur22/attendance_using_face.git
+cd attendance_using_face
 code .
 ```
-
-Replace `OWNER/REPOSITORY` with the repository's actual GitHub path.
 
 ### 2. Create the environment
 
@@ -323,8 +322,8 @@ python -m unittest discover -s tests -v
 python -m pip check
 ```
 
-Tests do not require webcam hardware. GitHub Actions runs the same suite on
-Python 3.12 for pushes and pull requests.
+Tests do not require webcam hardware. GitHub Actions runs the test suite on
+Python 3.13 (Ubuntu 22.04) for pushes and pull requests.
 
 ## Command-line tools
 
@@ -418,12 +417,10 @@ manual review. Do not solve false matches merely by adding more confirmation
 frames; confirmation repeats a match but does not make the identity model more
 accurate.
 
-## Contributing and security
+## License and contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Report
 sensitive vulnerabilities using the process in [SECURITY.md](SECURITY.md), not
 a public issue.
 
-This repository does not declare an open-source license. Add an appropriate
-`LICENSE` file before distributing or accepting contributions under specific
-license terms.
+This project is licensed under the GNU General Public License v3.0 ([GPLv3](LICENSE)).
